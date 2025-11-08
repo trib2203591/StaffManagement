@@ -1,0 +1,110 @@
+@using StaffManagement.Models
+
+@if (IsVisible && StaffMember != null)
+{
+    <!-- This is the backdrop, a semi-transparent gray area -->
+    <div class="modal-backdrop" @onclick="Close"></div>
+    
+    <!-- This is the actual modal content panel -->
+    <div class="modal-content">
+        <!-- Close button (the 'x') -->
+        <button class="modal-close-btn" @onclick="Close">&times;</button>
+        
+        <div class="modal-body">
+            <img src="@StaffMember.Photo" alt="@StaffMember.StaffName" class="modal-img"/>
+            <h3>@StaffMember.StaffName</h3>
+            
+            <div class="details-grid">
+                <strong>Staff ID:</strong>
+                <span>@StaffMember.StaffID</span>
+
+                <strong>Email:</strong>
+                <a href="mailto:@StaffMember.Email">@StaffMember.Email</a>
+
+                <strong>Phone:</strong>
+                <span>@StaffMember.PhoneNumber</span>
+
+                <strong>Starting Date:</strong>
+                <span>@StaffMember.StartingDate.ToShortDateString()</span>
+            </div>
+        </div>
+    </div>
+}
+
+<style>
+    .modal-backdrop {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1000; /* Behind the modal, in front of everything else */
+    }
+
+    .modal-content {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%); /* This centers the modal */
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        z-index: 1001; /* In front of the backdrop */
+        width: 90%;
+        max-width: 500px;
+        padding: 20px;
+    }
+
+    .modal-close-btn {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        background: none;
+        border: none;
+        font-size: 2rem;
+        color: #aaa;
+        cursor: pointer;
+        line-height: 1;
+    }
+
+    .modal-img {
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+        border-radius: 8px;
+        margin-bottom: 15px;
+    }
+    
+    .modal-body h3 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .details-grid {
+        display: grid;
+        grid-template-columns: 120px 1fr;
+        gap: 10px;
+    }
+
+    .details-grid strong {
+        font-weight: 600;
+    }
+</style>
+
+@code {
+    [Parameter]
+    public Staff StaffMember { get; set; }
+
+    [Parameter]
+    public bool IsVisible { get; set; }
+
+    [Parameter]
+    public EventCallback OnClose { get; set; }
+
+    private async Task Close()
+    {
+        // This invokes the OnClose event in the parent component
+        await OnClose.InvokeAsync();
+    }
+}

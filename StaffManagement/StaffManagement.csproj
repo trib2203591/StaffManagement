@@ -18,4 +18,8 @@
       <Folder Include="Controller\" />
     </ItemGroup>
 
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Views\Pages\Shared\StaffForm.razor" />
+    </ItemGroup>
+
 </Project>

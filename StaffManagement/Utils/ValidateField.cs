@@ -22,9 +22,10 @@ public class ValidateField
             {
                 object value =
                     propertyInfo.GetValue(staff);
+                string stringValue = value?.ToString() ?? string.Empty;
                 Regex validateEmailRegex =
                     new Regex(customAttribute.RE);
-                return validateEmailRegex.IsMatch(value.ToString());
+                return validateEmailRegex.IsMatch(stringValue.ToString());
             }
         }
         return true;
@@ -42,9 +43,10 @@ public class ValidateField
             {
                 object value =
                     propertyInfo.GetValue(staff);
+                string stringValue = value?.ToString() ?? string.Empty;
                 Regex validatePhoneRegex =
                     new Regex(customAttribute.RE);
-                return validatePhoneRegex.IsMatch(value.ToString());
+                return validatePhoneRegex.IsMatch(stringValue.ToString());
             }
         }
         return true;

@@ -1,0 +1,205 @@
+@page "/staff"
+@rendermode InteractiveServer
+@using Microsoft.EntityFrameworkCore
+@using StaffManagement.Models
+@using StaffManagement.Utils
+@inject StaffDbContext dbContext      
+@inject NavigationManager navManager 
+
+<h3>Company Staffs</h3>
+
+<div class="staff-card-container">
+    @if (allStaff == null)
+    {
+        <p><em>Empty</em></p>
+    }
+    else
+    {
+        @foreach (var staff in allStaff)
+        {
+            <div class="staff-card">
+                <img src="@staff.Photo" alt="@staff.StaffName" class="staff-card-img"
+                     onerror="this.src = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'"/>
+                <div class="staff-card-body">
+                    <h5 class="staff-card-name wrap-text">@staff.StaffName</h5>
+
+                    @* --- MODIFIED THIS BUTTON --- *@
+                    <button class="btn btn-primary" @onclick="() => OpenDetailsModal(staff)">
+                        View Details
+                    </button>
+                </div>
+            </div>
+        }
+    }
+</div>
+
+@* --- ADD THIS COMPONENT --- *@
+<!-- 
+This component is hidden by default. 
+We will control its visibility from our  atcode block.
+-->
+@if (isModalVisible && selectedStaff != null)
+{
+    <!-- This is the backdrop, a semi-transparent gray area -->
+    
+    
+    <!-- This is the actual modal content panel -->
+    <div class="modal-content">
+        <!-- Close button (the 'x') -->
+        <div class="button-container">
+            <button class="modal-close-btn" @onclick="CloseDetailsModal">&times;</button>
+        </div>
+        
+        
+        <div class="modal-body">
+            <div class="container">
+                <img src="@selectedStaff.Photo" alt="@selectedStaff.StaffName" class="modal-img"
+                     onerror="this.src = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'"/>
+            </div>
+            <h3 class="wrap-text">@selectedStaff.StaffName</h3>
+            <div>
+                <div>
+                    <strong>Staff ID:</strong>
+                    <span class="wrap-text">@selectedStaff.StaffID</span>
+                </div>
+                <div>
+                    <strong>Email:</strong>
+                    <span class="wrap-text">@selectedStaff.Email</span>
+                </div>
+                <div>
+                    <strong>Phone:</strong>
+                    <span class="wrap-text">@selectedStaff.PhoneNumber</span>
+                </div>
+                <div>
+                    <strong>Starting Date:</strong>
+                    <span class="wrap-text">@selectedStaff.StartingDate.ToShortDateString()</span>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+<style>
+    .container {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+    .button-container {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: end;
+        align-items: center;
+    }
+    .staff-card-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+    .staff-card {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        width: 200px;
+        overflow: hidden;
+    }
+    .staff-card-img {
+        width: 100%;
+        height: 200px;
+        object-fit: fill;
+    }
+    .staff-card-body {
+        padding: 15px;
+        text-align: center;
+    }
+    .staff-card-name {
+        font-size: 1.1rem;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .wrap-text {
+        overflow-wrap: break-word;
+    }
+    .modal-content {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%); 
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        width: 100%;
+        max-width: 250px;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-bottom: 10px;
+    }
+
+    .modal-close-btn {
+        display: block;
+        align-self: center;
+        background: none;
+        border: none;
+        font-size: 2rem;
+        color: #aaa;
+        cursor: pointer;
+    }
+
+    .modal-img {
+        width: 150px;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 8px;
+        margin-bottom: 15px;
+    }
+
+    .modal-body h3 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .staff-detail-container {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+    strong {
+        font-weight: 600;
+    }
+</style>
+
+@code {
+    private List<Staff> allStaff;
+    
+    private Staff selectedStaff;
+    private bool isModalVisible = false;
+    
+
+    protected override async Task OnInitializedAsync()
+    {
+        _ = LoadStaffDataAsync();
+    }
+    private async Task LoadStaffDataAsync()
+    {
+        allStaff = await dbContext.Staff.ToListAsync();
+        StateHasChanged();
+    }
+    
+    private void OpenDetailsModal(Staff staff)
+    {
+        selectedStaff = staff;
+        isModalVisible = true;
+    }
+    
+    private void CloseDetailsModal()
+    {
+        isModalVisible = false;
+        selectedStaff = null; 
+    }
+}
