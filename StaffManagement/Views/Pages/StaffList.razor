@@ -6,6 +6,8 @@
 @inject StaffDbContext dbContext      
 @inject NavigationManager navManager 
 
+<PageTitle>Staffs</PageTitle>
+
 <h3>Company Staffs</h3>
 
 <div class="staff-card-container">
@@ -33,19 +35,9 @@
     }
 </div>
 
-@* --- ADD THIS COMPONENT --- *@
-<!-- 
-This component is hidden by default. 
-We will control its visibility from our  atcode block.
--->
 @if (isModalVisible && selectedStaff != null)
 {
-    <!-- This is the backdrop, a semi-transparent gray area -->
-    
-    
-    <!-- This is the actual modal content panel -->
     <div class="modal-content">
-        <!-- Close button (the 'x') -->
         <div class="button-container">
             <button class="modal-close-btn" @onclick="CloseDetailsModal">&times;</button>
         </div>
