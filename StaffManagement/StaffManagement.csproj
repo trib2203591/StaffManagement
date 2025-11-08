@@ -15,13 +15,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Controller\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <_ContentIncludedByDefault Remove="Views\Pages\Shared\StaffForm.razor" />
       <_ContentIncludedByDefault Remove="Views\Shared\StaffDetail.razor" />
-      <_ContentIncludedByDefault Remove="Views\Shared\StaffForm.razor" />
     </ItemGroup>
 
 </Project>

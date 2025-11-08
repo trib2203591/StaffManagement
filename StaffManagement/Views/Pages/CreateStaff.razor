@@ -1,5 +1,8 @@
 @rendermode InteractiveServer
 @page "/newstaff"
+
+@inherits StaffManagement.Controller.CreateStaffPageController
+
 @using StaffManagement.Models
 @using StaffManagement.Utils
 @inject StaffDbContext dbContext    
@@ -11,31 +14,31 @@
 
 <EditForm Model="@staff" OnSubmit="@HandleSubmit" FormName="create-staff-form">
     
-    <div class="form-group">
+    <div class="form-group form-group-container">
         <label>Staff Name:</label>
         <InputText @bind-Value="staff.StaffName" class="form-control" />
         @if (!string.IsNullOrEmpty(nameError)) { <div class="validation-message">@nameError</div> }
     </div>
     
-    <div class="form-group">
+    <div class="form-group form-group-container">
         <label>Email:</label>
         <InputText @bind-Value="staff.Email" class="form-control" />
         @if (!string.IsNullOrEmpty(emailError)) { <div class="validation-message">@emailError</div> }
     </div>
     
-    <div class="form-group">
+    <div class="form-group form-group-container">
         <label>Phone Number:</label>
         <InputText @bind-Value="staff.PhoneNumber" class="form-control" />
         @if (!string.IsNullOrEmpty(phoneError)) { <div class="validation-message">@phoneError</div> }
     </div>
     
-    <div class="form-group">
+    <div class="form-group form-group-container">
         <label>Starting Date:</label>
         <InputDate @bind-Value="staff.StartingDate" class="form-control" />
         @if (!string.IsNullOrEmpty(dateError)) { <div class="validation-message">@dateError</div> }
     </div>
     
-    <div class="form-group">
+    <div class="form-group form-group-container">
         <label>Photo URL:</label>
         <InputText @bind-Value="staff.Photo" class="form-control" />
         @if (!string.IsNullOrEmpty(photoError)) { <div class="validation-message">@photoError</div> }
@@ -45,84 +48,8 @@
     
 </EditForm>
 
-@code {
-    private Staff staff = new Staff();
-    
-    
-    private string nameError = "";
-    private string emailError = "";
-    private string phoneError = "";
-    private string dateError = "";
-    private string photoError = "";
-    
-    private async Task HandleSubmit()
-    {
-        nameError = emailError = phoneError = dateError = photoError = "";
-        bool isValid = true;
-        
-
-        // Check for empty string *first*
-        if (string.IsNullOrWhiteSpace(staff.Email))
-        {
-            emailError = "The email is empty.";
-            isValid = false;
-        }
-        // Only check regex if it's not empty
-        else if (!ValidateField.CheckEmail(staff))
-        {
-            emailError = "The email format is invalid.";
-            isValid = false;
-        }
-        
-        // Check for empty string *first*
-        if (string.IsNullOrWhiteSpace(staff.PhoneNumber))
-        {
-            phoneError = "The phone number is empty."; 
-            isValid = false;
-        }
-        // Only check regex if it's not empty
-        else if (!ValidateField.CheckPhone(staff))
-        {
-            phoneError = "The phone number format is invalid.";
-            isValid = false;
-        }
-
-        if (string.IsNullOrWhiteSpace(staff.StaffName))
-        {
-            nameError = "Staff Name is required.";
-            isValid = false;
-        }
-        
-        if (string.IsNullOrWhiteSpace(staff.Photo))
-        {
-            photoError = "Photo URL is required.";
-            isValid = false;
-        }
-
-        if (staff.StartingDate == default(DateTime))
-        {
-            dateError = "Starting Date is required.";
-            isValid = false;
-        }
-
-        // --- Save Logic (from your old HandleSaveStaff method) ---
-        if (isValid)
-        {
-            try
-            {
-                dbContext.Staff.Add(staff);
-                await dbContext.SaveChangesAsync();
-                
-                // Navigate back to the staff list page
-                navManager.NavigateTo("/staff");
-            }
-            catch (Exception ex)
-            {
-                // Handle save error
-                Console.WriteLine($"Error saving staff: {ex.Message}");
-                // You could show this error on the page
-                nameError = $"Save failed: {ex.Message}";
-            }
-        }
+<style>
+    .form-group-container {
+        margin-bottom: 20px;
     }
-}
+</style>

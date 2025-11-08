@@ -1,9 +1,8 @@
 @page "/staff"
 @rendermode InteractiveServer
-@using Microsoft.EntityFrameworkCore
-@using StaffManagement.Models
-@using StaffManagement.Utils
-@inject StaffDbContext dbContext      
+
+@inherits StaffManagement.Controller.StaffPageController
+
 @inject NavigationManager navManager 
 
 <PageTitle>Staffs</PageTitle>
@@ -165,33 +164,3 @@
         font-weight: 600;
     }
 </style>
-
-@code {
-    private List<Staff> allStaff;
-    
-    private Staff selectedStaff;
-    private bool isModalVisible = false;
-    
-
-    protected override async Task OnInitializedAsync()
-    {
-        _ = LoadStaffDataAsync();
-    }
-    private async Task LoadStaffDataAsync()
-    {
-        allStaff = await dbContext.Staff.ToListAsync();
-        StateHasChanged();
-    }
-    
-    private void OpenDetailsModal(Staff staff)
-    {
-        selectedStaff = staff;
-        isModalVisible = true;
-    }
-    
-    private void CloseDetailsModal()
-    {
-        isModalVisible = false;
-        selectedStaff = null; 
-    }
-}
