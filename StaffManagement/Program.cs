@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using StaffManagement.Components;
+using StaffManagement.Views;
 using StaffManagement.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
