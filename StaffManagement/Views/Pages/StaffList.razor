@@ -10,9 +10,9 @@
 <h3>Company Staffs</h3>
 
 <div class="staff-card-container">
-    @if (allStaff == null)
+    @if (allStaff.Count() == 0)
     {
-        <p><em>Empty</em></p>
+        <p>Empty</p>
     }
     else
     {
