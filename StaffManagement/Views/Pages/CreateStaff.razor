@@ -16,31 +16,31 @@
     
     <div class="form-group form-group-container">
         <label>Staff Name:</label>
-        <InputText @bind-Value="staff.StaffName" class="form-control" />
+        <InputText id="staff-name" @bind-Value="staff.StaffName" class="form-control" />
         @if (!string.IsNullOrEmpty(nameError)) { <div class="validation-message">@nameError</div> }
     </div>
     
     <div class="form-group form-group-container">
         <label>Email:</label>
-        <InputText @bind-Value="staff.Email" class="form-control" />
+        <InputText id="staff-email" @bind-Value="staff.Email" class="form-control" />
         @if (!string.IsNullOrEmpty(emailError)) { <div class="validation-message">@emailError</div> }
     </div>
     
     <div class="form-group form-group-container">
         <label>Phone Number:</label>
-        <InputText @bind-Value="staff.PhoneNumber" class="form-control" />
+        <InputText id="staff-phone" @bind-Value="staff.PhoneNumber" class="form-control" />
         @if (!string.IsNullOrEmpty(phoneError)) { <div class="validation-message">@phoneError</div> }
     </div>
     
     <div class="form-group form-group-container">
         <label>Starting Date:</label>
-        <InputDate @bind-Value="staff.StartingDate" class="form-control" />
+        <InputDate id="staff-date" @bind-Value="staff.StartingDate" class="form-control" />
         @if (!string.IsNullOrEmpty(dateError)) { <div class="validation-message">@dateError</div> }
     </div>
     
     <div class="form-group form-group-container">
         <label>Photo URL:</label>
-        <InputText @bind-Value="staff.Photo" class="form-control" />
+        <InputText id="staff-photo" @bind-Value="staff.Photo" class="form-control" />
         @if (!string.IsNullOrEmpty(photoError)) { <div class="validation-message">@photoError</div> }
     </div>
     

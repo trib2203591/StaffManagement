@@ -8,33 +8,33 @@ using StaffManagement.Utils;
 public class StaffPageController : ComponentBase
 {
     [Inject]
-    protected StaffDbContext dbContext { get; set; }
+    public StaffDbContext dbContext { get; set; }
 
     [Inject]
-    protected NavigationManager navManager { get; set; }
+    public NavigationManager navManager { get; set; }
     
-    protected List<Staff> allStaff;
-    protected Staff selectedStaff;
-    protected bool isModalVisible = false;
+    public List<Staff> allStaff;
+    public Staff selectedStaff;
+    public bool isModalVisible = false;
     
     protected override async Task OnInitializedAsync()
     {
         _ = LoadStaffDataAsync();
     }
         
-    protected async Task LoadStaffDataAsync()
+    public async Task LoadStaffDataAsync()
     {
         allStaff = await dbContext.Staff.ToListAsync();
         StateHasChanged(); 
     }
 
-    protected void OpenDetailsModal(Staff staff)
+    public void OpenDetailsModal(Staff staff)
     {
         selectedStaff = staff;
         isModalVisible = true;
     }
 
-    protected void CloseDetailsModal()
+    public void CloseDetailsModal()
     {
         isModalVisible = false;
         selectedStaff = null;

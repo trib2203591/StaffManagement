@@ -7,25 +7,25 @@ namespace StaffManagement.Controller;
 public class CreateStaffPageController : ComponentBase
 {
     [Inject]
-    protected StaffDbContext dbContext { get; set; }
+    public StaffDbContext dbContext { get; set; }
 
     [Inject]
-    protected NavigationManager navManager { get; set; }
+    public NavigationManager navManager { get; set; }
     
-    protected Staff staff = new Staff();
+    public Staff staff = new Staff();
     
-    protected string nameError = "";
-    protected string emailError = "";
-    protected string phoneError = "";
-    protected string dateError = "";
-    protected string photoError = "";
+    public string nameError = "";
+    public string emailError = "";
+    public string phoneError = "";
+    public string dateError = "";
+    public string photoError = "";
     
     protected override void OnInitialized()
     {
         staff.StartingDate = DateTime.Today;
     }
     
-    protected async Task HandleSubmit()
+    public async Task HandleSubmit()
     {
         nameError = emailError = phoneError = dateError = photoError = "";
         bool isValid = true;

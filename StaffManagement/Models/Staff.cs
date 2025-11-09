@@ -7,7 +7,7 @@ public class Staff
 {
     public int StaffID { get; set; }
     public string StaffName { get; set; }
-    [CheckAttribute("^\\S+@\\S+\\.\\S+$")]
+    [CheckAttribute(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[A-Za-z]{2,}$")]
     public string Email { get; set; }
     [CheckAttribute("^\\+?\\d{1,3}?[- .]?\\d{2,4}[- .]?\\d{3,4}[- .]?\\d{3,4}$")]
     public string PhoneNumber { get; set; }
